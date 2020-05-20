@@ -7,7 +7,7 @@ A palindrome is the same when written backwards.
 Negative numbers are also not palindromes i.e -121 -> 121-
 */
 
-public class IntegerPalindrome 
+class IntegerPalindrome 
 {
 
     public static boolean isPalindrome(int x)
