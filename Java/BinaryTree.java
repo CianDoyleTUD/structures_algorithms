@@ -29,15 +29,14 @@ class Tree
     public Tree(int[] data)
     {
 
+        Arrays.sort(data);
         root = new Node(data[0]);
 
-        Arrays.sort(data);
-
-        tree = new Node[data.length]; // Populate tree with empty nodes
-        
         for (int i = 0; i < data.length; i++)
         {
+
             z = new Node(data[i]);
+            System.out.println(": " + z.val);
             current = root;
             while(current.leftNode != null)
             {
