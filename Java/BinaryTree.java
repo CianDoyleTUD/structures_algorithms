@@ -9,19 +9,27 @@ class Tree
 {
     
     static Node[] tree;
+    public Node root;
     public Node z;
+    public Node current;
 
     class Node 
     {
         public int val;
         public Node rightNode;
         public Node leftNode;
+
+        public Node(int x)
+        {
+            this.val = x;
+        }
+
     }
 
     public Tree(int[] data)
     {
 
-        z = new Node();
+        root = new Node(data[0]);
 
         Arrays.sort(data);
 
@@ -29,17 +37,24 @@ class Tree
         
         for (int i = 0; i < data.length; i++)
         {
-            z.val = data[i];
-            tree[i] = z;
+            z = new Node(data[i]);
+            current = root;
+            while(current.leftNode != null)
+            {
+                current = current.leftNode;
+            }
+            current.leftNode = z;
         }
 
     }
 
     public void displayTree()
-    {
-        for (int i = 0; i < tree.length; i++)
+    {   
+        current = root;
+        while(current.leftNode != null)
         {
-            System.out.println(tree[i].val);
+            System.out.println(current.val);
+            current = current.leftNode;
         }
     }
 
