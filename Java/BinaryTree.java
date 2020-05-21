@@ -9,15 +9,19 @@ class Tree
 {
     
     static Node[] tree;
-    public Node root;
-    public Node z;
-    public Node current;
+    private Node root;
+    private ArrayList<Integer> visited = new ArrayList<Integer>();
 
     class Node 
     {
         public int val;
         public Node rightNode;
         public Node leftNode;
+
+        public Node()
+        {
+
+        }
 
         public Node(int x)
         {
@@ -29,32 +33,65 @@ class Tree
     public Tree(int[] data)
     {
 
-        Arrays.sort(data);
-        root = new Node(data[0]);
+        root = new Node(data[data.length / 2]); // Middle value is the root for a balanced sorted tree
 
         for (int i = 0; i < data.length; i++)
         {
+           if (data[i] != root.val)
+           {
+                addNode(data[i]);
 
-            z = new Node(data[i]);
-            System.out.println(": " + z.val);
-            current = root;
-            while(current.leftNode != null)
-            {
-                current = current.leftNode;
-            }
-            current.leftNode = z;
+           }
+        }
+    }
+ 
+    public Node addNodeRec(int value, Node curNode)
+    {
+        
+        if (curNode == null) // BASE CASE: If we have reached the end of the tree
+        { 
+            System.out.println("Added node of value: " + value);
+            return new Node(value);
         }
 
+        if (value < curNode.val)
+            curNode.leftNode = addNodeRec(value, curNode.leftNode);
+
+        else if (value > curNode.val)
+            curNode.rightNode = addNodeRec(value, curNode.rightNode);
+
+        else 
+            return curNode;
+
+        return curNode;
+
+    }
+
+    public void addNode(int value)
+    {
+        root = addNodeRec(value, root);
+    }
+
+    public void displayNodes(Node curNode)
+    {
+        
+        if(!visited.contains(curNode.val))
+            System.out.println(curNode.val);
+            visited.add(curNode.val); 
+        
+        if (curNode.rightNode != null)
+        {
+            displayNodes(curNode.rightNode);
+        }   
+        if (curNode.leftNode != null)
+        {
+            displayNodes(curNode.leftNode);
+        }
     }
 
     public void displayTree()
     {   
-        current = root;
-        while(current.leftNode != null)
-        {
-            System.out.println(current.val);
-            current = current.leftNode;
-        }
+        displayNodes(root);
     }
 
 }
@@ -62,7 +99,7 @@ class BinaryTree
 {
     public static void main(String[] args)
     {
-        int[] treeData = {3,2,8,32,7,1,8}; // Use some arbitrary data to populate tree
+        int[] treeData = {1,2,3,4,5,6,7,8}; // Use some arbitrary data to populate tree
         Tree tree = new Tree(treeData); // Create tree object
         tree.displayTree();
     }
